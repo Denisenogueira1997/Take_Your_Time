@@ -1,0 +1,36 @@
+package com.example.aplicativotcc.componentes
+
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.Button
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import com.example.aplicativotcc.ui.theme.Gray
+import com.example.aplicativotcc.ui.theme.Green
+import com.example.aplicativotcc.ui.theme.White
+
+@Composable
+fun Botao(
+    onClick:()->Unit,
+    modifier: Modifier,
+    texto:String
+
+) {
+
+    Button(
+        onClick ,
+        modifier,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Green,
+            contentColor = Color.Black
+
+        )
+    ) {
+        Text(text= texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+
+    }
+
+}
