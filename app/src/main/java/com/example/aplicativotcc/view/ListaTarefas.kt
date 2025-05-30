@@ -1,7 +1,6 @@
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.aplicativotcc.R
-import com.example.aplicativotcc.model.Tarefa
 import com.example.aplicativotcc.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.BlueEscuro
@@ -33,9 +30,7 @@ import com.example.aplicativotcc.ui.theme.Gray
 import com.example.aplicativotcc.ui.theme.GreenEscuro
 import com.example.aplicativotcc.ui.theme.Red
 import com.example.aplicativotcc.ui.theme.White
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
