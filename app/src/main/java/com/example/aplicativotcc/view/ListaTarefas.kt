@@ -1,8 +1,6 @@
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,7 +16,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -26,10 +23,10 @@ import com.example.aplicativotcc.R
 import com.example.aplicativotcc.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.BlueEscuro
-import com.example.aplicativotcc.ui.theme.Gray
 import com.example.aplicativotcc.ui.theme.GreenEscuro
 import com.example.aplicativotcc.ui.theme.Red
-import com.example.aplicativotcc.ui.theme.White
+import com.example.aplicativotcc.ui.theme.marrom100
+import com.example.aplicativotcc.ui.theme.marrom50
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -46,44 +43,59 @@ fun ListaTarefas(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Lista de tarefas",
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Black,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+
+                    ) {
+
+                        Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_lista),
+                                contentDescription = "Ícone lista",
+                                tint = Black,
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .align(Alignment.CenterStart)
+                            )
+                            Text(
+                                text = "Lista de tarefas",
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Black,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
+                        }
+
                 },
-                backgroundColor = White,
+                backgroundColor = marrom100,
                 contentColor = Black
             )
         },
-        backgroundColor = Gray,
+        backgroundColor = marrom50,
         floatingActionButton = {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp)
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(56.dp)
-                        .background(Color.White, RoundedCornerShape(8.dp))
-                        .clickable {
-                            navController.navigate("AtividadesFinalizadas")
-                        }
-                        .padding(8.dp)
+
+                Button(
+                    onClick = {
+                        navController.navigate("AtividadesFinalizadas")
+                    },
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.height(48.dp)
                 ) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
-                        contentDescription = "Ir para a AtividadesFinalizadas",
-                        tint = Black
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_estatistica),
+                        contentDescription = "Ir para estatísticas",
+                        tint = Black,
+                        modifier = Modifier.size(20.dp)
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Estatística", color = Black)
                 }
-
                 FloatingActionButton(
                     onClick = { navController.navigate("CriarTarefas") },
                     backgroundColor = Color.White,
@@ -106,16 +118,7 @@ fun ListaTarefas(
                 .fillMaxSize()
         ) {
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                ColorLegend(color = Red, text = "Urgente")
-                ColorLegend(color = GreenEscuro, text = "Importante")
-                ColorLegend(color = BlueEscuro, text = "Interessante")
-            }
+
 
             LazyColumn(
                 modifier = Modifier.padding(8.dp)
@@ -129,18 +132,4 @@ fun ListaTarefas(
 }
 
 
-@Composable
-fun ColorLegend(color: Color, text: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(4.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(16.dp)
-                .background(color, shape = RoundedCornerShape(4.dp))
-        )
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(text, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-    }
-}
+

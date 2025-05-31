@@ -18,5 +18,6 @@ val Green= Color(0xFF72DA08)
 val GreenEscuro = Color(0xFF6ED306)
 val Red = Color(0xFFFF1A1A)
 val BlueEscuro = Color(0xFF0C30FA)
-
+val marrom50 = Color(0xFFF1EFF0)
+val marrom100 = Color(0xFFD3CDCF)
 
