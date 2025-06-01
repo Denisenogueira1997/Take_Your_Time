@@ -114,11 +114,12 @@ fun TarefaItem(
                             .align(Alignment.CenterStart)
                             .padding(
                                 start = 8.dp,
-                                end = 90.dp
+                                end = 100.dp
                             ),
                         fontSize = 16.sp,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = marrom900
                     )
 
 
@@ -133,7 +134,8 @@ fun TarefaItem(
                         Text(
                             text = "$duracaoTarefa",
                             modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp
+                            fontSize = 12.sp,
+                            color = marrom900
                         )
                     }
                 }
