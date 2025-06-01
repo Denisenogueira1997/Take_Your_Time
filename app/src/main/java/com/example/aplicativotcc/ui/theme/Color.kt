@@ -20,4 +20,5 @@ val Red = Color(0xFFFF1A1A)
 val BlueEscuro = Color(0xFF0C30FA)
 val marrom50 = Color(0xFFF1EFF0)
 val marrom100 = Color(0xFFD3CDCF)
+val marrom900 = Color(0xFF2F282A)
 

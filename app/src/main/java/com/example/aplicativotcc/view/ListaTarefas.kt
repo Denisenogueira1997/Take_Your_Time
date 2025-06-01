@@ -21,18 +21,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.aplicativotcc.R
 import com.example.aplicativotcc.repositorio.TarefasRepositorio
-import com.example.aplicativotcc.ui.theme.Black
-import com.example.aplicativotcc.ui.theme.BlueEscuro
-import com.example.aplicativotcc.ui.theme.GreenEscuro
-import com.example.aplicativotcc.ui.theme.Red
 import com.example.aplicativotcc.ui.theme.marrom100
 import com.example.aplicativotcc.ui.theme.marrom50
-
+import com.example.aplicativotcc.ui.theme.marrom900
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-
 fun ListaTarefas(
     navController: NavController
 ) {
@@ -44,84 +39,107 @@ fun ListaTarefas(
             TopAppBar(
                 title = {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-
+                        modifier = Modifier.fillMaxWidth()
                     ) {
-
                         Icon(
-                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_lista),
-                                contentDescription = "Ícone lista",
-                                tint = Black,
-                                modifier = Modifier
-                                    .size(28.dp)
-                                    .align(Alignment.CenterStart)
-                            )
-                            Text(
-                                text = "Lista de tarefas",
-                                fontSize = 26.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Black,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_lista),
+                            contentDescription = "Ícone lista",
+                            tint = marrom900,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .align(Alignment.CenterStart)
+                        )
+                        Text(
+                            text = "Lista de tarefas",
+                            fontSize = 24.sp,
+                            color = marrom900,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
                 },
                 backgroundColor = marrom100,
-                contentColor = Black
+                contentColor = marrom900
             )
         },
         backgroundColor = marrom50,
-        floatingActionButton = {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(16.dp)
+        bottomBar = {
+            BottomAppBar(
+                backgroundColor = marrom100,
+                contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                ) {
 
-                Button(
-                    onClick = {
-                        navController.navigate("AtividadesFinalizadas")
-                    },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.height(48.dp)
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_estatistica),
-                        contentDescription = "Ir para estatísticas",
-                        tint = Black,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Estatística", color = Black)
-                }
-                FloatingActionButton(
-                    onClick = { navController.navigate("CriarTarefas") },
-                    backgroundColor = Color.White,
-                    modifier = Modifier.size(56.dp)
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
-                        contentDescription = "Criar tarefa",
-                        tint = Black
-                    )
+                    TextButton(
+                        onClick = {  },
+                        colors = ButtonDefaults.textButtonColors(
+                            backgroundColor = marrom50,
+                            contentColor = marrom900
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.align(Alignment.CenterStart)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_task),
+                            contentDescription = "Lista de tarefas",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text("Tarefas")
+                    }
+
+
+                    FloatingActionButton(
+                        onClick = { navController.navigate("CriarTarefas") },
+                        backgroundColor = marrom900,
+                        contentColor = marrom100,
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
+                            contentDescription = "Criar tarefa"
+                        )
+                    }
+
+
+                    TextButton(
+                        onClick = { navController.navigate("AtividadesFinalizadas") },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent,
+                            contentColor = marrom900
+                        ),
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_estatistica),
+                            contentDescription = "Ir para estatísticas",
+                            modifier = Modifier.size(20.dp),
+                            tint = marrom900
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = "Estatística", color = marrom900)
+                    }
                 }
             }
         }
     ) { paddingValues ->
-        val listaTarefas = tarefasRepositorio.recuperarTarefas().collectAsState(mutableListOf()).value
+        val listaTarefas =
+            tarefasRepositorio.recuperarTarefas().collectAsState(mutableListOf()).value
 
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-
-
-
             LazyColumn(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
+                    .weight(1f)
             ) {
                 itemsIndexed(listaTarefas) { position, tarefa ->
                     TarefaItem(position = position, tarefa = tarefa, navController = navController)
@@ -130,6 +148,7 @@ fun ListaTarefas(
         }
     }
 }
+
 
 
 
