@@ -1,4 +1,4 @@
-package com.example.aplicativotcc.componentes
+package com.example.aplicativotcc.view.componentes
 
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults

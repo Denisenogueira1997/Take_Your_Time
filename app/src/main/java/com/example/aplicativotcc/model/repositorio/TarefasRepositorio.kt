@@ -1,7 +1,8 @@
-package com.example.aplicativotcc.repositorio
+package com.example.aplicativotcc.model.repositorio
 
 import android.content.Context
 import com.example.aplicativotcc.model.Tarefa
+import com.example.aplicativotcc.repositorio.DataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,3 +1,6 @@
+package com.example.aplicativotcc.view
+
+import TarefaItem
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,23 +10,22 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.aplicativotcc.R
-import com.example.aplicativotcc.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.ui.theme.marrom100
 import com.example.aplicativotcc.ui.theme.marrom50
 import com.example.aplicativotcc.ui.theme.marrom900
+import com.example.aplicativotcc.viewmodel.ListaTarefasViewModel
+import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -32,15 +34,18 @@ fun ListaTarefas(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val tarefasRepositorio = TarefasRepositorio(context)
+    val viewModel = remember {
+        val repositorio = TarefasRepositorio(context)
+        ListaTarefasViewModel(repositorio)
+    }
+
+    val listaTarefas = viewModel.listaTarefas.collectAsState().value
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_lista),
                             contentDescription = "Ícone lista",
@@ -72,9 +77,8 @@ fun ListaTarefas(
                         .fillMaxWidth()
                         .height(56.dp)
                 ) {
-
                     TextButton(
-                        onClick = {  },
+                        onClick = { /* Já está na tela atual */ },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = marrom50,
                             contentColor = marrom900
@@ -91,7 +95,6 @@ fun ListaTarefas(
                         Text("Tarefas")
                     }
 
-
                     FloatingActionButton(
                         onClick = { navController.navigate("CriarTarefas") },
                         backgroundColor = marrom900,
@@ -105,7 +108,6 @@ fun ListaTarefas(
                             contentDescription = "Criar tarefa"
                         )
                     }
-
 
                     TextButton(
                         onClick = { navController.navigate("AtividadesFinalizadas") },
@@ -128,8 +130,6 @@ fun ListaTarefas(
             }
         }
     ) { paddingValues ->
-        val listaTarefas =
-            tarefasRepositorio.recuperarTarefas().collectAsState(mutableListOf()).value
 
         Column(
             modifier = Modifier
@@ -148,6 +148,7 @@ fun ListaTarefas(
         }
     }
 }
+
 
 
 

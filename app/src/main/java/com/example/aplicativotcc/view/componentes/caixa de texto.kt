@@ -1,4 +1,4 @@
-package com.example.aplicativotcc.componentes
+package com.example.aplicativotcc.view.componentes
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

@@ -1,4 +1,4 @@
-package com.example.aplicativotcc.util
+package com.example.aplicativotcc.model.util
 
 import android.annotation.SuppressLint
 import android.app.Dialog

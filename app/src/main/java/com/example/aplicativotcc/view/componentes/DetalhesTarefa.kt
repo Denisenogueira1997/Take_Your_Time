@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.aplicativotcc.repositorio.TarefasRepositorio
+import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import com.example.aplicativotcc.model.Tarefa

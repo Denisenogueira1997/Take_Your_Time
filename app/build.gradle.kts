@@ -101,4 +101,9 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.15.2")
 
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation ("androidx.activity:activity-compose:1.7.1")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.4.3")
+
 }

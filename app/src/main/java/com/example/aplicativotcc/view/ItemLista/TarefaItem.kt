@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.aplicativotcc.model.Tarefa
-import com.example.aplicativotcc.repositorio.TarefasRepositorio
+import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
+import com.example.aplicativotcc.model.util.DateUtil
 import com.example.aplicativotcc.ui.theme.*
-import com.example.aplicativotcc.util.DateUtil
 import java.time.LocalTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -105,67 +105,68 @@ fun TarefaItem(
                 }
         ) {
 
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = tituloTarefa,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(
+                            start = 8.dp,
+                            end = 100.dp
+                        ),
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = marrom900
+                )
+
+
                 Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .width(56.dp)
+                        .height(32.dp)
+                        .border(2.dp, corBorda,shape = RoundedCornerShape(8.dp)),
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = tituloTarefa,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(
-                                start = 8.dp,
-                                end = 100.dp
-                            ),
-                        fontSize = 16.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        text = "$duracaoTarefa",
+                        modifier = Modifier.padding(8.dp),
+                        fontSize = 12.sp,
                         color = marrom900
                     )
-
-
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .width(56.dp)
-                            .height(32.dp)
-                            .border(2.dp, corBorda,shape = RoundedCornerShape(8.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "$duracaoTarefa",
-                            modifier = Modifier.padding(8.dp),
-                            fontSize = 12.sp,
-                            color = marrom900
-                        )
-                    }
                 }
             }
+        }
 
-            if (showTimePicker.value) {
-                TimePickerDialog(
-                    context,
-                    { _, hourOfDay, minute ->
-                        val localTime = LocalTime.of(hourOfDay, minute)
-                        val novaDuracao = dateUtil.calcularNovaDuracao(tarefa, localTime)
+        if (showTimePicker.value) {
+            TimePickerDialog(
+                context,
+                { _, hourOfDay, minute ->
+                    val localTime = LocalTime.of(hourOfDay, minute)
+                    val novaDuracao = dateUtil.calcularNovaDuracao(tarefa, localTime)
 
-                        tarefasRepositorio.atualizarTarefa(
-                            tarefa.tarefa,
-                            tarefa.descricao,
-                            tarefa.dataInicial,
-                            tarefa.dataFinal,
-                            novaDuracao,
-                            tarefa.prioridade,
-                            tarefa.finalizada
-                        )
+                    tarefasRepositorio.atualizarTarefa(
+                        tarefa.tarefa,
+                        tarefa.descricao,
+                        tarefa.dataInicial,
+                        tarefa.dataFinal,
+                        novaDuracao,
+                        tarefa.prioridade,
+                        tarefa.finalizada
+                    )
 
-                        navController.navigate("DetalhesTarefa?titulo=${tarefa.tarefa}&descricao=${tarefa.descricao}&dataInicial=${tarefa.dataInicial}&dataFinal=${tarefa.dataFinal}&duracao=$novaDuracao&prioridade=${tarefa.prioridade}")
+                    navController.navigate("DetalhesTarefa?titulo=${tarefa.tarefa}&descricao=${tarefa.descricao}&dataInicial=${tarefa.dataInicial}&dataFinal=${tarefa.dataFinal}&duracao=$novaDuracao&prioridade=${tarefa.prioridade}")
 
-                        showTimePicker.value = false
-                    },
-                    0, 0, true
-                ).show()
-            }
+                    showTimePicker.value = false
+                },
+                0, 0, true
+            ).show()
         }
     }
+}
+
 
 
