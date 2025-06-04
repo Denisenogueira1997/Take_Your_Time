@@ -13,7 +13,7 @@ class TarefasRepositorio(context: Context) {
     private val _todastarefas = MutableStateFlow<MutableList<Tarefa>>(mutableListOf())
     val todastarefas: StateFlow<MutableList<Tarefa>> = _todastarefas
 
-    // Lista para armazenar as tarefas "excluídas" temporariamente (lixeira)
+
     private val tarefasNaLixeira = mutableListOf<Tarefa>()
 
     // Método para salvar uma nova tarefa

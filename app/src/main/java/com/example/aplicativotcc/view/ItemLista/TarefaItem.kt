@@ -2,6 +2,7 @@ import android.app.TimePickerDialog
 import android.os.Build
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,6 +23,9 @@ import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.model.util.DateUtil
 import com.example.aplicativotcc.ui.theme.*
 import java.time.LocalTime
+import androidx.compose.ui.res.painterResource
+import com.example.aplicativotcc.R
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -79,20 +83,22 @@ fun TarefaItem(
                 .padding(end = 16.dp)
                 .background(color = White)
         ) {
-            Checkbox(
-                checked = isCheckedState,
-                onCheckedChange = { isChecked ->
-                    isCheckedState = isChecked
-                    if (isChecked) {
-                        showTimePicker.value = true
+            Image(
+                painter = if (isCheckedState)
+                    painterResource(id = R.drawable.ic_check) // ícone marcado
+                else
+                    painterResource(id = R.drawable.ic_checkadd), // ícone desmarcado
+                contentDescription = "Marcar tarefa",
+                modifier = Modifier
+                    .size(30.dp)
+                    .clickable {
+                        isCheckedState = !isCheckedState
+                        if (isCheckedState) {
+                            showTimePicker.value = true
+                        }
                     }
-                },
-                modifier = Modifier.fillMaxSize(),
-                colors = CheckboxDefaults.colors(
-                    checkedColor = GreenEscuro,
-                    uncheckedColor = White
-                )
             )
+
         }
 
         Card(

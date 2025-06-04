@@ -1,6 +1,5 @@
 package com.example.aplicativotcc.ui.theme
 
-import android.widget.RadioButton
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)

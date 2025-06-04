@@ -1,7 +1,6 @@
 package com.example.aplicativotcc.view
 
 import CaixaDeData
-import CaixaDeSelecao
 import CaixaDeTextoDuracao
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -193,9 +192,9 @@ fun EditarTarefas(
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.8f) // Ajusta o tamanho para 80% da largura
+                        .fillMaxWidth(0.8f)
                         .background(Color.White)
-                        .padding(8.dp) // Diminui o padding
+                        .padding(8.dp)
                         .clickable {
                             Toast.makeText(context, "A prioridade não pode ser alterada.", Toast.LENGTH_SHORT).show()
                         }
@@ -208,7 +207,7 @@ fun EditarTarefas(
                         color = Color.Black,
                         modifier = Modifier
                             .fillMaxWidth()
-                             .padding(8.dp) // Ajusta o padding interno
+                             .padding(8.dp)
                             .background(Color.Gray),
                         textAlign = TextAlign.Center
                     )
@@ -228,7 +227,6 @@ fun EditarTarefas(
                                 var errorMessage = ""
 
                                 if (validInput) {
-                                    // Log para verificar os valores antes da atualização
                                     Log.d("EditarTarefas", "Atualizando tarefa: $tituloTarefa, $descricaoTarefa, $selectedPriority, $selectedDateInicial, $selectedDateFinal, $selectedDuration")
 
                                     val prioridadeAtualizada: Int = when (selectedPriority) {

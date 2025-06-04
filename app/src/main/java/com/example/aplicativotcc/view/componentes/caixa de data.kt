@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aplicativotcc.ui.theme.Black
-import com.example.aplicativotcc.ui.theme.Blue
 import com.example.aplicativotcc.ui.theme.ShapeEditText
 import com.example.aplicativotcc.ui.theme.White
 
@@ -27,10 +25,10 @@ fun CaixaDeData(
         color = Black,
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)  // Altura para ficar consistente com outras caixas
+            .height(56.dp)
             .border(
                 width = 1.dp,
-                color = Black,  // Cor da borda alinhada com outras caixas
+                color = Black,
                 shape = ShapeEditText.medium
             )
             .background(White, shape = ShapeEditText.medium)

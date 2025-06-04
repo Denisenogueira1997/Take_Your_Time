@@ -1,21 +1,12 @@
 package com.example.aplicativotcc.model.util
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.aplicativotcc.model.Tarefa
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalUnit
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+
 
 @SuppressLint("NewApi")
 class DateUtil {

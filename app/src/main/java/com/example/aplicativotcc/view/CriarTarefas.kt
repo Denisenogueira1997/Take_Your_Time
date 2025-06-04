@@ -42,7 +42,7 @@ fun CriarTarefas(
     val context = LocalContext.current
     val tarefasRepositorio = TarefasRepositorio(context)
 
-    // Estados do formulário
+
     var tituloTarefa by remember { mutableStateOf("") }
     var descricaoTarefa by remember { mutableStateOf("") }
     var selectedDateInicial by remember { mutableStateOf("Selecionar data inicial*") }
@@ -114,7 +114,7 @@ fun CriarTarefas(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)  // <- aqui aplica o padding do Scaffold
+                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             CaixaDeTexto(

@@ -2,7 +2,6 @@ package com.example.aplicativotcc.ViewModel
 
 
 import android.app.Application
-import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
