@@ -11,7 +11,9 @@ import com.example.aplicativotcc.model.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CriarTarefasViewModel(application: Application) : AndroidViewModel(application) {
+class CriarTarefasViewModel(
+    application: Application
+) : AndroidViewModel(application) {
 
     var tituloTarefa by mutableStateOf("")
     var descricaoTarefa by mutableStateOf("")
@@ -27,32 +29,32 @@ class CriarTarefasViewModel(application: Application) : AndroidViewModel(applica
     fun salvarTarefa(onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             var validInput = true
-            var errorMessage = ""
+            var errorMessage = StringBuilder()
 
             if (tituloTarefa.isEmpty()) {
                 validInput = false
-                errorMessage += "O título da tarefa é obrigatório.\n"
+                errorMessage.append("O título da tarefa é obrigatório.\n")
             }
             if (selectedDateInicial == "Selecionar data inicial*") {
                 validInput = false
-                errorMessage += "A data inicial é obrigatória.\n"
+                errorMessage.append("A data inicial é obrigatória.\n")
             }
             if (selectedDateFinal == "Selecionar data final*") {
                 validInput = false
-                errorMessage += "A data final é obrigatória.\n"
+                errorMessage.append("A data final é obrigatória.\n")
             }
             if (selectedDuration == "Duração total da atividade*") {
                 validInput = false
-                errorMessage += "A duração é obrigatória.\n"
+                errorMessage.append("A duração é obrigatória.\n")
             }
             if (selectedPriority == "Selecione a prioridade*") {
                 validInput = false
-                errorMessage += "A prioridade é obrigatória.\n"
+                errorMessage.append("A prioridade é obrigatória.\n")
             }
             val dataAtual = dateUtil.getCurrentDate()
             if (selectedDateInicial < dataAtual) {
                 validInput = false
-                errorMessage += "A data inicial não pode ser anterior à data atual.\n"
+                errorMessage.append("A data inicial não pode ser anterior à data atual.\n")
             }
 
             if (validInput) {
@@ -75,7 +77,7 @@ class CriarTarefasViewModel(application: Application) : AndroidViewModel(applica
                 }
             } else {
                 launch(Dispatchers.Main) {
-                    onError(errorMessage)
+                    onError(errorMessage.toString())
                 }
             }
         }

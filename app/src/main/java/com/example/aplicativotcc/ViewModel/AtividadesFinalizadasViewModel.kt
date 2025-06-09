@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AtividadesFinalizadasViewModel(private val repository: TarefasRepositorio) : ViewModel() {
+class AtividadesFinalizadasViewModel(
+    private val repository: TarefasRepositorio
+) : ViewModel() {
 
     private val _atividadesFinalizadas = MutableStateFlow<List<Tarefa>>(emptyList())
     val atividadesFinalizadas: StateFlow<List<Tarefa>> = _atividadesFinalizadas

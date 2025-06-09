@@ -14,7 +14,6 @@ class TarefasRepositorio(context: Context) {
     val todastarefas: StateFlow<MutableList<Tarefa>> = _todastarefas
 
 
-    private val tarefasNaLixeira = mutableListOf<Tarefa>()
 
     // Método para salvar uma nova tarefa
     fun salvarTarefa(

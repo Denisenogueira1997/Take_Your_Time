@@ -20,4 +20,5 @@ val BlueEscuro = Color(0XFF0921B2)
 val marrom50 = Color(0xFFF1EFF0)
 val marrom100 = Color(0xFFD3CDCF)
 val marrom900 = Color(0xFF2F282A)
+val PrimaryTextColor = marrom900
 
