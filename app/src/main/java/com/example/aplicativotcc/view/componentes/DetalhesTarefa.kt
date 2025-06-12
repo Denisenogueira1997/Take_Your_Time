@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,10 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.aplicativotcc.repositorio.TarefasRepositorio
+import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import com.example.aplicativotcc.model.Tarefa
 import com.example.aplicativotcc.ui.theme.BlueEscuro
 import com.example.aplicativotcc.ui.theme.GreenEscuro
 import com.example.aplicativotcc.ui.theme.Red
@@ -39,8 +35,8 @@ fun DetalhesTarefa(
 ) {
     val context = LocalContext.current
     val tarefasRepositorio = remember { TarefasRepositorio(context) }
-    val showDeleteDialog = remember { mutableStateOf(false) } // Para confirmação de exclusão
-    val showFinalizeDialog = remember { mutableStateOf(false) } // Para confirmação de finalização
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    val showFinalizeDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -94,7 +90,7 @@ fun DetalhesTarefa(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Botão de edição
+
                 Button(
                     onClick = {
                         navController.navigate("editar_tarefa?titulo=$titulo&descricao=$descricao&dataInicial=$dataInicial&dataFinal=$dataFinal&duracao=$duracao&prioridade=$prioridade")
@@ -106,7 +102,7 @@ fun DetalhesTarefa(
                         fontSize = 14.sp)
                 }
 
-                // Botão de excluir
+
                 Button(
                     onClick = { showDeleteDialog.value = true }, // Mostra o diálogo de exclusão
                     colors = ButtonDefaults.buttonColors(backgroundColor = Red),
@@ -116,7 +112,7 @@ fun DetalhesTarefa(
                         fontSize = 14.sp)
                 }
 
-                // Botão de finalizar
+
                 Button(
                     onClick = { showFinalizeDialog.value = true }, // Mostra o diálogo de finalização
                     colors = ButtonDefaults.buttonColors(backgroundColor = GreenEscuro),

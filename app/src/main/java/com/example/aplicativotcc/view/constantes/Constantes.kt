@@ -1,4 +1,4 @@
-package com.example.aplicativotcc.constantes
+package com.example.aplicativotcc.view.constantes
 
 object Constantes {
     const val urgente =1

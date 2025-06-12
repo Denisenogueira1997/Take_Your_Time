@@ -1,7 +1,8 @@
-package com.example.aplicativotcc.repositorio
+package com.example.aplicativotcc.model.repositorio
 
 import android.content.Context
 import com.example.aplicativotcc.model.Tarefa
+import com.example.aplicativotcc.repositorio.DataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +13,7 @@ class TarefasRepositorio(context: Context) {
     private val _todastarefas = MutableStateFlow<MutableList<Tarefa>>(mutableListOf())
     val todastarefas: StateFlow<MutableList<Tarefa>> = _todastarefas
 
-    // Lista para armazenar as tarefas "excluídas" temporariamente (lixeira)
-    private val tarefasNaLixeira = mutableListOf<Tarefa>()
+
 
     // Método para salvar uma nova tarefa
     fun salvarTarefa(

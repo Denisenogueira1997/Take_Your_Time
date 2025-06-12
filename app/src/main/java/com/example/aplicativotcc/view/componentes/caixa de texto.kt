@@ -1,8 +1,6 @@
-package com.example.aplicativotcc.componentes
+package com.example.aplicativotcc.view.componentes
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedTextField
@@ -11,7 +9,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.Blue

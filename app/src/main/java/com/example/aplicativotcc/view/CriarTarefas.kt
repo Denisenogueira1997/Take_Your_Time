@@ -21,21 +21,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.aplicativotcc.componentes.Botao
-import com.example.aplicativotcc.componentes.BotaoCancelar
-import com.example.aplicativotcc.componentes.CaixaDeTexto
-import com.example.aplicativotcc.constantes.Constantes
-import com.example.aplicativotcc.repositorio.TarefasRepositorio
+import com.example.aplicativotcc.view.componentes.Botao
+import com.example.aplicativotcc.view.componentes.BotaoCancelar
+import com.example.aplicativotcc.view.componentes.CaixaDeTexto
+import com.example.aplicativotcc.view.constantes.Constantes
+import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.ui.theme.Black
-//import com.example.aplicativotcc.ui.theme.Gray
-import com.example.aplicativotcc.ui.theme.Green
 import com.example.aplicativotcc.ui.theme.White
-import com.example.aplicativotcc.util.DateUtil
+import com.example.aplicativotcc.model.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CriarTarefas(
     navController: NavController
@@ -43,6 +41,57 @@ fun CriarTarefas(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val tarefasRepositorio = TarefasRepositorio(context)
+
+
+    var tituloTarefa by remember { mutableStateOf("") }
+    var descricaoTarefa by remember { mutableStateOf("") }
+    var selectedDateInicial by remember { mutableStateOf("Selecionar data inicial*") }
+    var selectedDateFinal by remember { mutableStateOf("Selecionar data final*") }
+    var selectedDuration by remember { mutableStateOf("Duração total da atividade*") }
+    var selectedPriority by remember { mutableStateOf("Selecione a prioridade*") }
+
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    val dateUtil = DateUtil()
+
+    val datePickerDialogInicial = DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            val dateSelected = dateUtil.createFormattedDate(selectedDay, selectedMonth + 1, selectedYear)
+            if (dateUtil.isDateBefore(dateSelected, selectedDateFinal)) {
+                Toast.makeText(context, "A data inicial não pode ser depois da data final", Toast.LENGTH_LONG).show()
+            } else if (dateUtil.isDateAfter(dateUtil.getCurrentDate(), dateSelected)) {
+                selectedDateInicial = dateSelected
+            } else {
+                Toast.makeText(context, "A data inicial é anterior à data atual.", Toast.LENGTH_LONG).show()
+            }
+        },
+        year, month, day
+    )
+
+    val datePickerDialogFinal = DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            val dateSelected = dateUtil.createFormattedDate(selectedDay, selectedMonth + 1, selectedYear)
+            if (selectedDateInicial != "Selecionar data inicial*" && dateUtil.isDateAfter(selectedDateInicial, dateSelected)) {
+                selectedDateFinal = dateSelected
+            } else {
+                Toast.makeText(context, "A data final não pode ser anterior à data inicial.", Toast.LENGTH_LONG).show()
+            }
+        },
+        year, month, day
+    )
+
+    val timePickerDialog = TimePickerDialog(
+        context,
+        { _, hour: Int, minute: Int ->
+            selectedDuration = dateUtil.createFormattedTime(hour, minute)
+        },
+        0, 0, true
+    )
 
     Scaffold(
         topBar = {
@@ -60,61 +109,12 @@ fun CriarTarefas(
                 }
             )
         }
-    ) {
-        var tituloTarefa by remember { mutableStateOf("") }
-        var descricaoTarefa by remember { mutableStateOf("") }
-        var selectedDateInicial by remember { mutableStateOf("Selecionar data inicial*") }
-        var selectedDateFinal by remember { mutableStateOf("Selecionar data final*") }
-        var selectedDuration by remember { mutableStateOf("Duração total da atividade*") }
-        var selectedPriority by remember { mutableStateOf("Selecione a prioridade*") }
-
-
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val dateUtil = DateUtil()
-
-        val datePickerDialogInicial = DatePickerDialog(
-            context,
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val dateSelected = dateUtil.createFormattedDate(selectedDay , selectedMonth + 1, selectedYear)
-                if(dateUtil.isDateBefore(dateSelected, selectedDateFinal)){
-                    Toast.makeText(context, "A data inicial não pode ser depois da data final", Toast.LENGTH_LONG).show()
-                } else if (dateUtil.isDateAfter(dateUtil.getCurrentDate(), dateSelected)) {
-                    selectedDateInicial = dateSelected
-                } else {
-                    Toast.makeText(context, "A data inicial é anterior a data atual.", Toast.LENGTH_LONG).show()
-                }
-            },
-            year, month, day
-        )
-
-        val datePickerDialogFinal = DatePickerDialog(
-            context,
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val dateSelected = dateUtil.createFormattedDate(selectedDay , selectedMonth + 1, selectedYear)
-                if (selectedDateInicial != "Selecionar data inicial*" && dateUtil.isDateAfter(selectedDateInicial, dateSelected)) {
-                    selectedDateFinal = dateSelected
-                } else {
-                    Toast.makeText(context, "A data final não pode ser anterior à data inicial.", Toast.LENGTH_LONG).show()
-                }
-            },
-            year, month, day
-        )
-
-        val timePickerDialog = TimePickerDialog(
-            context,
-            { _, hour: Int, minute: Int ->
-                selectedDuration = dateUtil.createFormattedTime(hour, minute)
-            },
-            0, 0, true
-        )
+    ) { innerPadding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
             CaixaDeTexto(
@@ -168,7 +168,7 @@ fun CriarTarefas(
                 fontSize = 14.sp,
                 color = Color.Red,
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 8.dp)  // Ajuste do padding conforme necessário
+                    .padding(start = 20.dp, end = 20.dp, top = 8.dp)
             )
 
             CaixaDeSelecao(
@@ -188,7 +188,6 @@ fun CriarTarefas(
                 Botao(
                     onClick = {
                         scope.launch(Dispatchers.IO) {
-                            // Verificação de campos obrigatórios
                             var validInput = true
                             var errorMessage = ""
 
@@ -204,7 +203,7 @@ fun CriarTarefas(
                                 validInput = false
                                 errorMessage += "A data final é obrigatória.\n"
                             }
-                            if (selectedDuration == "Selecionar duração (hh:mm) *") {
+                            if (selectedDuration == "Duração total da atividade*") {
                                 validInput = false
                                 errorMessage += "A duração é obrigatória.\n"
                             }
@@ -212,23 +211,23 @@ fun CriarTarefas(
                                 validInput = false
                                 errorMessage += "A prioridade é obrigatória.\n"
                             }
-                            val dataAtual = dateUtil.getCurrentDate() // Obtém a data atual
+                            val dataAtual = dateUtil.getCurrentDate()
                             if (selectedDateInicial < dataAtual) {
                                 validInput = false
                                 errorMessage += "A data inicial não pode ser anterior à data atual.\n"
                             }
 
                             if (validInput) {
-
                                 val prioridade = when (selectedPriority) {
                                     "Urgente" -> Constantes.urgente
                                     "Importante" -> Constantes.importante
                                     "Interessante" -> Constantes.interessante
                                     else -> Constantes.interessante
                                 }
+
                                 tarefasRepositorio.salvarTarefa(
                                     tituloTarefa,
-                                    descricaoTarefa,  // Campo opcional
+                                    descricaoTarefa,
                                     prioridade,
                                     selectedDateInicial,
                                     selectedDateFinal,
@@ -236,21 +235,12 @@ fun CriarTarefas(
                                 )
 
                                 launch(Dispatchers.Main) {
-                                    Toast.makeText(
-                                        context,
-                                        "Sucesso ao criar a atividade",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast.makeText(context, "Sucesso ao criar a atividade", Toast.LENGTH_SHORT).show()
                                     navController.popBackStack()
                                 }
                             } else {
-
                                 launch(Dispatchers.Main) {
-                                    Toast.makeText(
-                                        context,
-                                        errorMessage,
-                                        Toast.LENGTH_LONG
-                                    ).show()
+                                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                                 }
                             }
                         }
@@ -269,15 +259,11 @@ fun CriarTarefas(
                         .height(50.dp)
                         .padding(start = 8.dp),
                     texto = "Cancelar",
-
-
-
-
-                    )
-
+                )
             }
         }
     }
 }
+
 
 

@@ -1,6 +1,6 @@
-package com.example.aplicativotcc
+package com.example.aplicativotcc.view
 
-import ListaTarefas
+
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,11 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.aplicativotcc.view.AtividadesFinalizadas
-import com.example.aplicativotcc.view.CriarTarefas
-import com.example.aplicativotcc.view.DetalhesTarefa
-import com.example.aplicativotcc.view.EditarTarefas
-
 
 
 @RequiresApi(Build.VERSION_CODES.O)
