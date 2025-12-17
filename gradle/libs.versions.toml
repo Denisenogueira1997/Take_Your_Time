@@ -1,17 +1,18 @@
 [versions]
-agp = "8.5.1"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
+agp = "8.11.1"
+kotlin = "2.0.21"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.6"
-activityCompose = "1.9.2"
+lifecycleRuntimeKtx = "2.9.2"
+activityCompose = "1.10.1"
 composeBom = "2024.04.01"
 navigationRuntimeKtx = "2.8.1"
 firebaseCommonKtx = "21.0.0"
 junitJupiter = "5.8.1"
 navigationRuntimeAndroid = "2.8.0"
+material3 = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,8 +33,12 @@ firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-k
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 androidx-navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+hilt = { id = "com.google.dagger.hilt.android", version = "2.48" }
 

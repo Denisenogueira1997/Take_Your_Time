@@ -12,14 +12,14 @@ import com.example.aplicativotcc.ui.theme.Gray
 
 @Composable
 fun BotaoCancelar(
-    onClick:()->Unit,
+    onClick: () -> Unit,
     modifier: Modifier,
-    texto:String
+    texto: String
 
 ) {
 
     Button(
-        onClick ,
+        onClick,
         modifier,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Gray,
@@ -27,7 +27,7 @@ fun BotaoCancelar(
 
         )
     ) {
-        Text(text= texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(text = texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
 
     }
 

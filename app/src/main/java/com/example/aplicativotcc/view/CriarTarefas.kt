@@ -1,17 +1,24 @@
 package com.example.aplicativotcc.view
 
-import CaixaDeData
-import CaixaDeSelecao
-import CaixaDeTextoDuracao
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -20,67 +27,50 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.aplicativotcc.view.componentes.Botao
-import com.example.aplicativotcc.view.componentes.BotaoCancelar
-import com.example.aplicativotcc.view.componentes.CaixaDeTexto
-import com.example.aplicativotcc.view.constantes.Constantes
-import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
 import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.White
-import com.example.aplicativotcc.model.util.DateUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.aplicativotcc.view.componentes.Botao
+import com.example.aplicativotcc.view.componentes.BotaoCancelar
+import com.example.aplicativotcc.view.componentes.CaixaDeData
+import com.example.aplicativotcc.view.componentes.CaixaDeSelecao
+import com.example.aplicativotcc.view.componentes.CaixaDeTexto
+import com.example.aplicativotcc.view.componentes.CaixaDeTextoDuracao
+import com.example.aplicativotcc.viewmodel.CriarTarefasViewModel
 import java.util.Calendar
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CriarTarefas(
     navController: NavController
 ) {
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val tarefasRepositorio = TarefasRepositorio(context)
 
-
-    var tituloTarefa by remember { mutableStateOf("") }
-    var descricaoTarefa by remember { mutableStateOf("") }
-    var selectedDateInicial by remember { mutableStateOf("Selecionar data inicial*") }
-    var selectedDateFinal by remember { mutableStateOf("Selecionar data final*") }
-    var selectedDuration by remember { mutableStateOf("Duração total da atividade*") }
-    var selectedPriority by remember { mutableStateOf("Selecione a prioridade*") }
+    val viewModel: CriarTarefasViewModel = hiltViewModel()
 
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-    val dateUtil = DateUtil()
+    /** --------------------- PICKERS --------------------- **/
 
-    val datePickerDialogInicial = DatePickerDialog(
+    val datePickerInicial = DatePickerDialog(
         context,
-        { _, selectedYear, selectedMonth, selectedDay ->
-            val dateSelected = dateUtil.createFormattedDate(selectedDay, selectedMonth + 1, selectedYear)
-            if (dateUtil.isDateBefore(dateSelected, selectedDateFinal)) {
-                Toast.makeText(context, "A data inicial não pode ser depois da data final", Toast.LENGTH_LONG).show()
-            } else if (dateUtil.isDateAfter(dateUtil.getCurrentDate(), dateSelected)) {
-                selectedDateInicial = dateSelected
-            } else {
-                Toast.makeText(context, "A data inicial é anterior à data atual.", Toast.LENGTH_LONG).show()
-            }
+        { _, y, m, d ->
+            viewModel.selectedDateInicial =
+                viewModel.dateUtil.createFormattedDate(d, m + 1, y)
         },
         year, month, day
     )
 
-    val datePickerDialogFinal = DatePickerDialog(
+    val datePickerFinal = DatePickerDialog(
         context,
-        { _, selectedYear, selectedMonth, selectedDay ->
-            val dateSelected = dateUtil.createFormattedDate(selectedDay, selectedMonth + 1, selectedYear)
-            if (selectedDateInicial != "Selecionar data inicial*" && dateUtil.isDateAfter(selectedDateInicial, dateSelected)) {
-                selectedDateFinal = dateSelected
-            } else {
-                Toast.makeText(context, "A data final não pode ser anterior à data inicial.", Toast.LENGTH_LONG).show()
-            }
+        { _, y, m, d ->
+            viewModel.selectedDateFinal =
+                viewModel.dateUtil.createFormattedDate(d, m + 1, y)
         },
         year, month, day
     )
@@ -88,7 +78,8 @@ fun CriarTarefas(
     val timePickerDialog = TimePickerDialog(
         context,
         { _, hour: Int, minute: Int ->
-            selectedDuration = dateUtil.createFormattedTime(hour, minute)
+            viewModel.selectedDuration =
+                viewModel.dateUtil.createFormattedTime(hour, minute)
         },
         0, 0, true
     )
@@ -117,9 +108,10 @@ fun CriarTarefas(
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
         ) {
+
             CaixaDeTexto(
-                value = tituloTarefa,
-                onValueChange = { tituloTarefa = it },
+                value = viewModel.tituloTarefa,
+                onValueChange = { viewModel.tituloTarefa = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp, 40.dp, 20.dp, 0.dp),
@@ -129,8 +121,8 @@ fun CriarTarefas(
             )
 
             CaixaDeTexto(
-                value = descricaoTarefa,
-                onValueChange = { descricaoTarefa = it },
+                value = viewModel.descricaoTarefa,
+                onValueChange = { viewModel.descricaoTarefa = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
@@ -140,44 +132,50 @@ fun CriarTarefas(
                 keyboardType = KeyboardType.Text
             )
 
+
             CaixaDeData(
-                value = selectedDateInicial,
-                onClick = { datePickerDialogInicial.show() },
+                value = viewModel.selectedDateInicial,
+                onClick = { datePickerInicial.show() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp, 10.dp, 20.dp, 0.dp)
             )
 
+
             CaixaDeData(
-                value = selectedDateFinal,
-                onClick = { datePickerDialogFinal.show() },
+                value = viewModel.selectedDateFinal,
+                onClick = { datePickerFinal.show() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp, 10.dp, 20.dp, 0.dp)
             )
+
 
             CaixaDeTextoDuracao(
-                value = selectedDuration,
+                value = viewModel.selectedDuration,
                 onClick = { timePickerDialog.show() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp, 10.dp, 20.dp, 0.dp)
             )
+
             Text(
-                text = "A duração total será dividida pelo número de dias entre a data inicial e a data final, para obter o tempo diário dedicado à atividade",
+                text = "A duração total será dividida pelo número de dias entre as datas.",
                 fontSize = 14.sp,
                 color = Color.Red,
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, top = 8.dp)
             )
 
+
             CaixaDeSelecao(
-                selectedPriority = selectedPriority,
-                onPrioritySelected = { selectedPriority = it },
+                selectedPriority = viewModel.selectedPriority,
+                onPrioritySelected = { viewModel.selectedPriority = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp, 10.dp, 20.dp, 0.dp)
             )
+
 
             Row(
                 modifier = Modifier
@@ -187,63 +185,19 @@ fun CriarTarefas(
             ) {
                 Botao(
                     onClick = {
-                        scope.launch(Dispatchers.IO) {
-                            var validInput = true
-                            var errorMessage = ""
-
-                            if (tituloTarefa.isEmpty()) {
-                                validInput = false
-                                errorMessage += "O título da tarefa é obrigatório.\n"
+                        viewModel.salvarTarefa(
+                            onSuccess = {
+                                Toast.makeText(
+                                    context,
+                                    "Sucesso ao criar a atividade",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.popBackStack()
+                            },
+                            onError = {
+                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                             }
-                            if (selectedDateInicial == "Selecionar data inicial*") {
-                                validInput = false
-                                errorMessage += "A data inicial é obrigatória.\n"
-                            }
-                            if (selectedDateFinal == "Selecionar data final*") {
-                                validInput = false
-                                errorMessage += "A data final é obrigatória.\n"
-                            }
-                            if (selectedDuration == "Duração total da atividade*") {
-                                validInput = false
-                                errorMessage += "A duração é obrigatória.\n"
-                            }
-                            if (selectedPriority == "Selecione a prioridade*") {
-                                validInput = false
-                                errorMessage += "A prioridade é obrigatória.\n"
-                            }
-                            val dataAtual = dateUtil.getCurrentDate()
-                            if (selectedDateInicial < dataAtual) {
-                                validInput = false
-                                errorMessage += "A data inicial não pode ser anterior à data atual.\n"
-                            }
-
-                            if (validInput) {
-                                val prioridade = when (selectedPriority) {
-                                    "Urgente" -> Constantes.urgente
-                                    "Importante" -> Constantes.importante
-                                    "Interessante" -> Constantes.interessante
-                                    else -> Constantes.interessante
-                                }
-
-                                tarefasRepositorio.salvarTarefa(
-                                    tituloTarefa,
-                                    descricaoTarefa,
-                                    prioridade,
-                                    selectedDateInicial,
-                                    selectedDateFinal,
-                                    selectedDuration
-                                )
-
-                                launch(Dispatchers.Main) {
-                                    Toast.makeText(context, "Sucesso ao criar a atividade", Toast.LENGTH_SHORT).show()
-                                    navController.popBackStack()
-                                }
-                            } else {
-                                launch(Dispatchers.Main) {
-                                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                                }
-                            }
-                        }
+                        )
                     },
                     modifier = Modifier
                         .weight(1f)
@@ -264,6 +218,5 @@ fun CriarTarefas(
         }
     }
 }
-
 
 

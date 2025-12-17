@@ -1,11 +1,6 @@
 package com.example.aplicativotcc.util
 
-import com.example.aplicativotcc.model.Tarefa
-import com.example.aplicativotcc.model.util.DateUtil
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
+import com.example.aplicativotcc.data.DateUtil
 
 class DateUtilTest {
    private val dateUtil = DateUtil()

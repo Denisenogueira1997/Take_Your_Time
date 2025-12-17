@@ -1,45 +1,56 @@
 package com.example.aplicativotcc.view
 
-import TarefaItem
-import android.annotation.SuppressLint
+import com.example.aplicativotcc.view.componentes.TarefaItem
+import com.example.aplicativotcc.viewmodel.TarefasViewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.aplicativotcc.R
 import com.example.aplicativotcc.ui.theme.marrom100
 import com.example.aplicativotcc.ui.theme.marrom50
 import com.example.aplicativotcc.ui.theme.marrom900
-import com.example.aplicativotcc.viewmodel.ListaTarefasViewModel
-import com.example.aplicativotcc.model.repositorio.TarefasRepositorio
+
 
 @RequiresApi(Build.VERSION_CODES.O)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ListaTarefas(
     navController: NavController
 ) {
-    val context = LocalContext.current
-    val viewModel = remember {
-        val repositorio = TarefasRepositorio(context)
-        ListaTarefasViewModel(repositorio)
-    }
-
-    val listaTarefas = viewModel.listaTarefas.collectAsState().value
+    val viewModel: TarefasViewModel = hiltViewModel()
+    val listaTarefas by viewModel.tarefas.collectAsState()
+    val tarefas by viewModel.tarefas.collectAsState(initial = emptyList())
 
     Scaffold(
         topBar = {
@@ -70,7 +81,8 @@ fun ListaTarefas(
         bottomBar = {
             BottomAppBar(
                 backgroundColor = marrom100,
-                contentPadding = PaddingValues(horizontal = 16.dp)
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                modifier = Modifier.navigationBarsPadding()
             ) {
                 Box(
                     modifier = Modifier
@@ -78,12 +90,12 @@ fun ListaTarefas(
                         .height(56.dp)
                 ) {
                     TextButton(
-                        onClick = { /* Já está na tela atual */ },
+                        onClick = { },
                         colors = ButtonDefaults.textButtonColors(
                             backgroundColor = marrom50,
                             contentColor = marrom900
                         ),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
                         modifier = Modifier.align(Alignment.CenterStart)
                     ) {
                         Icon(
@@ -142,12 +154,21 @@ fun ListaTarefas(
                     .weight(1f)
             ) {
                 itemsIndexed(listaTarefas) { position, tarefa ->
-                    TarefaItem(position = position, tarefa = tarefa, navController = navController)
+                    TarefaItem(
+                        position = position,
+                        tarefa = tarefa,
+                        navController = navController,
+                        onAtualizarTarefa = { tarefaAtualizada ->
+                            viewModel.atualizar(tarefaAtualizada)
+                        }
+                    )
                 }
+
             }
         }
     }
 }
+
 
 
 

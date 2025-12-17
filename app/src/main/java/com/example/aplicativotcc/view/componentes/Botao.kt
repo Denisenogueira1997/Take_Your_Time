@@ -13,14 +13,14 @@ import com.example.aplicativotcc.ui.theme.Green
 
 @Composable
 fun Botao(
-    onClick:()->Unit,
+    onClick: () -> Unit,
     modifier: Modifier,
-    texto:String
+    texto: String
 
 ) {
 
     Button(
-        onClick ,
+        onClick,
         modifier,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Green,
@@ -28,7 +28,7 @@ fun Botao(
 
         )
     ) {
-        Text(text= texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(text = texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
 
     }
 

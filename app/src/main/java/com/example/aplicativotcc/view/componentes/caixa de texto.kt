@@ -1,6 +1,5 @@
 package com.example.aplicativotcc.view.componentes
 
-
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.OutlinedTextField
@@ -17,13 +16,13 @@ import com.example.aplicativotcc.ui.theme.White
 
 @Composable
 fun CaixaDeTexto(
-    value:String,
-    onValueChange :(String) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier,
-    label:String,
+    label: String,
     maxLines: Int,
     keyboardType: KeyboardType
-){
+) {
     CaixaDeTexto(
         value = value,
         onValueChange = onValueChange,
@@ -38,23 +37,24 @@ fun CaixaDeTexto(
 
 @Composable
 fun CaixaDeTexto(
-    value:String,
-    onValueChange :(String) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier,
-    label:String,
+    label: String,
     maxLines: Int,
     keyboardType: KeyboardType,
     readOnly: Boolean
-){
+) {
 
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         label = {
-          Text (text = label,
-              fontSize = 20.sp)
-
+            Text(
+                text = label,
+                fontSize = 20.sp
+            )
 
 
         },

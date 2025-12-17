@@ -1,17 +1,21 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.android)
     id("de.mannodermaus.android-junit5")
+    alias(libs.plugins.kotlin.compose)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    id ("kotlin-kapt")
 }
 
 android {
     namespace = "com.example.aplicativotcc"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.aplicativotcc"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -31,18 +35,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -61,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.jupiter)
@@ -105,5 +108,18 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation ("androidx.activity:activity-compose:1.7.1")
     implementation ("androidx.compose.runtime:runtime-livedata:1.4.3")
+
+
+    implementation("com.google.dagger:hilt-android:2.52")
+    ksp("com.google.dagger:hilt-compiler:2.52")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+
 
 }
