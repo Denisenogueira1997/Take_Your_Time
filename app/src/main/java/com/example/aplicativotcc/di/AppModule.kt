@@ -21,7 +21,8 @@ object AppModule {
             app,
             AppDatabase::class.java,
             "db_tarefas"
-        ).build()
+        )
+            .build()
 
     @Provides
     @Singleton

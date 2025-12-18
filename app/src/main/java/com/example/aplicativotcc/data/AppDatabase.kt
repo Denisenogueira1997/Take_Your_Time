@@ -1,8 +1,8 @@
 package com.example.aplicativotcc.data
 
-
 import androidx.room.Database
 import androidx.room.RoomDatabase
+
 
 @Database(
     entities = [TarefaEntity::class],
@@ -12,3 +12,4 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tarefaDao(): TarefaDao
 }
+
