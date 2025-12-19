@@ -43,7 +43,6 @@ class EditarTarefaViewModel @Inject constructor(
                 null
             }
 
-
             if (dataInicial != null && dataInicial.isBefore(hoje)) {
                 onError("A data inicial não pode ser anterior à data atual.")
                 return@launch
@@ -58,9 +57,16 @@ class EditarTarefaViewModel @Inject constructor(
                 return@launch
             }
 
+            val novoTempoDiario = dateUtil.calcularTempoDiario(tarefa)
 
-            repositorio.atualizarTarefa(tarefa)
+            val tarefaAtualizada = tarefa.copy(
+                tempoDiarioFixo = novoTempoDiario,
+                dataTempoDiario = hoje.format(dateUtil.dateFormatter)
+            )
+
+            repositorio.atualizarTarefa(tarefaAtualizada)
             onSuccess()
         }
     }
+
 }

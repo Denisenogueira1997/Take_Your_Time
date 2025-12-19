@@ -3,6 +3,7 @@ package com.example.aplicativotcc.di
 import android.app.Application
 import androidx.room.Room
 import com.example.aplicativotcc.data.AppDatabase
+import com.example.aplicativotcc.data.MIGRATION_1_2
 import com.example.aplicativotcc.data.TarefaDao
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,8 @@ object AppModule {
             app,
             AppDatabase::class.java,
             "db_tarefas"
-        ).build()
+        ).addMigrations(MIGRATION_1_2)
+            .build()
 
     @Provides
     @Singleton

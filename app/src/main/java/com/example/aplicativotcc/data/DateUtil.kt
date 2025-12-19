@@ -1,6 +1,8 @@
 package com.example.aplicativotcc.data
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -107,6 +109,73 @@ class DateUtil {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun subtrairDoTempoDiario(
+        tarefa: TarefaEntity,
+        minutosTrabalhados: Int
+    ): String {
+
+        val tempoAtual = tarefa.tempoDiarioFixo.ifBlank { "00:00" }
+        val localTime = toLocalTime(tempoAtual)
+
+        val totalMinutos =
+            localTime.hour * 60 + localTime.minute
+
+        val restante =
+            (totalMinutos - minutosTrabalhados)
+                .coerceAtLeast(0)
+
+        val horas = restante / 60
+        val minutos = restante % 60
+
+        return createFormattedTime(horas, minutos)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calcularTempoDiarioInicial(
+        dataInicial: String,
+        dataFinal: String,
+        duracao: String
+    ): String {
+
+        if (dataInicial.isBlank() || dataFinal.isBlank()) return "00:00"
+        if (duracao.isBlank()) return "00:00"
+
+        val hoje = LocalDate.now()
+
+        val inicio = try {
+            LocalDate.parse(dataInicial, dateFormatter)
+        } catch (e: Exception) {
+            return "00:00"
+        }
+
+        val fim = try {
+            LocalDate.parse(dataFinal, dateFormatter)
+        } catch (e: Exception) {
+            return "00:00"
+        }
+
+        if (fim.isBefore(hoje)) return "00:00"
+
+        val dataInicioCalculo =
+            if (inicio.isAfter(hoje)) inicio else hoje
+
+        val diasTotais =
+            ChronoUnit.DAYS.between(dataInicioCalculo, fim) + 1
+
+        if (diasTotais <= 0) return "00:00"
+
+        val segundosTotais =
+            LocalTime.parse(duracao, timeFormatter).toSecondOfDay()
+
+        val segundosPorDia = segundosTotais / diasTotais
+
+        if (segundosPorDia <= 0) return "00:00"
+
+        return LocalTime
+            .ofSecondOfDay(segundosPorDia)
+            .format(timeFormatter)
     }
 
 

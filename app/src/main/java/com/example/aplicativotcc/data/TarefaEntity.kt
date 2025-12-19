@@ -13,8 +13,11 @@ data class TarefaEntity(
     val dataFinal: String = "",
     val duracao: String = "",
     val prioridade: Int = 0,
-    val finalizada: Boolean = false
+    val finalizada: Boolean = false,
+    val tempoDiarioFixo: String = "",
+    val dataTempoDiario: String = ""
 
 
 )
+
 

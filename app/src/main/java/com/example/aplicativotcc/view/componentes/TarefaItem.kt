@@ -47,7 +47,6 @@ import com.example.aplicativotcc.ui.theme.marrom900
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TarefaItem(
-    position: Int,
     tarefa: TarefaEntity,
     navController: NavController,
     onAtualizarTarefa: (TarefaEntity) -> Unit
@@ -56,7 +55,8 @@ fun TarefaItem(
     val context = LocalContext.current
 
     val tituloTarefa = tarefa.titulo.ifEmpty { "Tarefa sem título" }
-    val duracaoTarefa = dateUtil.calcularTempoDiario(tarefa)
+    val tempoDiarioExibido = tarefa.tempoDiarioFixo.ifBlank { "00:00" }
+
 
     var isCheckedState by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -138,7 +138,7 @@ fun TarefaItem(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "$duracaoTarefa",
+                        text = "$tempoDiarioExibido",
                         modifier = Modifier.padding(8.dp),
                         fontSize = 12.sp,
                         color = marrom900
@@ -166,9 +166,15 @@ fun TarefaItem(
                         tarefa,
                         minutosTrabalhados
                     )
+                    val novoTempoDiario = dateUtil.subtrairDoTempoDiario(
+                        tarefa,
+                        minutosTrabalhados
+                    )
+
 
                     val tarefaAtualizada = tarefa.copy(
-                        duracao = novaDuracao
+                        duracao = novaDuracao,
+                        tempoDiarioFixo = novoTempoDiario
                     )
 
                     onAtualizarTarefa(tarefaAtualizada)

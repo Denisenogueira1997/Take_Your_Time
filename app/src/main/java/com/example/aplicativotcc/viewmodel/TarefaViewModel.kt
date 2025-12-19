@@ -28,25 +28,6 @@ class TarefasViewModel @Inject constructor(
         repositorio.recuperarPorId(id)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), TarefaEntity())
 
-    fun adicionar(
-        titulo: String,
-        descricao: String,
-        dataInicial: String,
-        dataFinal: String,
-        duracao: String,
-        prioridade: Int
-    ) {
-        viewModelScope.launch {
-            repositorio.adicionar(
-                titulo,
-                descricao,
-                dataInicial,
-                dataFinal,
-                duracao,
-                prioridade
-            )
-        }
-    }
 
 
     fun atualizar(tarefa: TarefaEntity) {

@@ -20,7 +20,9 @@ class TarefasRepositorio @Inject constructor(
         dataInicial: String,
         dataFinal: String,
         duracao: String,
-        prioridade: Int
+        prioridade: Int,
+        tempoDiarioFixo: String,
+        dataTempoDiario: String
     ) {
         dao.inserir(
             TarefaEntity(
@@ -29,7 +31,9 @@ class TarefasRepositorio @Inject constructor(
                 dataInicial = dataInicial,
                 dataFinal = dataFinal,
                 duracao = duracao,
-                prioridade = prioridade
+                prioridade = prioridade,
+                tempoDiarioFixo = tempoDiarioFixo,
+                dataTempoDiario = dataTempoDiario
             )
         )
     }

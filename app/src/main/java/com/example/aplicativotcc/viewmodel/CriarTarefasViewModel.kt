@@ -32,6 +32,7 @@ class CriarTarefasViewModel @Inject constructor(
 
     val dateUtil = DateUtil()
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun salvarTarefa(
         onSuccess: () -> Unit,
@@ -112,13 +113,23 @@ class CriarTarefasViewModel @Inject constructor(
                 else -> Constantes.interessante
             }
 
+            val tempoDiarioInicial = dateUtil.calcularTempoDiarioInicial(
+                dataInicial = selectedDateInicial,
+                dataFinal = selectedDateFinal,
+                duracao = selectedDuration
+            )
+
+            val hoje = LocalDate.now().format(dateUtil.dateFormatter)
+
             tarefasRepositorio.adicionar(
                 titulo = tituloTarefa,
                 descricao = descricaoTarefa,
                 dataInicial = selectedDateInicial,
                 dataFinal = selectedDateFinal,
                 duracao = selectedDuration,
-                prioridade = prioridade
+                prioridade = prioridade,
+                tempoDiarioFixo = tempoDiarioInicial,
+                dataTempoDiario = hoje
             )
 
             launch(Dispatchers.Main) {

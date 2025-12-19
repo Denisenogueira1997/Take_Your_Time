@@ -1,7 +1,7 @@
 package com.example.aplicativotcc.view
 
 import com.example.aplicativotcc.view.componentes.TarefaItem
-import com.example.aplicativotcc.viewmodel.TarefasViewModel
+
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
@@ -26,6 +26,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -41,6 +42,7 @@ import com.example.aplicativotcc.R
 import com.example.aplicativotcc.ui.theme.marrom100
 import com.example.aplicativotcc.ui.theme.marrom50
 import com.example.aplicativotcc.ui.theme.marrom900
+import com.example.aplicativotcc.viewmodel.ListaTarefasViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,9 +50,14 @@ import com.example.aplicativotcc.ui.theme.marrom900
 fun ListaTarefas(
     navController: NavController
 ) {
-    val viewModel: TarefasViewModel = hiltViewModel()
-    val listaTarefas by viewModel.tarefas.collectAsState()
+    val viewModel: ListaTarefasViewModel = hiltViewModel()
+
+    val listaTarefas by viewModel.tarefas.collectAsState(initial = emptyList())
     val tarefas by viewModel.tarefas.collectAsState(initial = emptyList())
+    LaunchedEffect(tarefas) {
+        viewModel.garantirTempoDiarioAtualizado(tarefas)
+    }
+
 
     Scaffold(
         topBar = {
@@ -155,11 +162,10 @@ fun ListaTarefas(
             ) {
                 itemsIndexed(listaTarefas) { position, tarefa ->
                     TarefaItem(
-                        position = position,
                         tarefa = tarefa,
                         navController = navController,
                         onAtualizarTarefa = { tarefaAtualizada ->
-                            viewModel.atualizar(tarefaAtualizada)
+                            viewModel.atualizarTarefa(tarefaAtualizada)
                         }
                     )
                 }
