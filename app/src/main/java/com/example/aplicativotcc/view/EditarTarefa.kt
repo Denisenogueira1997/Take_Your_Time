@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,6 +40,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.aplicativotcc.data.DateUtil
@@ -48,6 +51,7 @@ import com.example.aplicativotcc.view.componentes.CaixaDeTextoDuracao
 import com.example.aplicativotcc.view.constantes.Constantes
 import com.example.aplicativotcc.viewmodel.EditarTarefaViewModel
 import java.util.Calendar
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -71,7 +75,7 @@ fun EditarTarefas(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
         return
     }
@@ -122,23 +126,28 @@ fun EditarTarefas(
     )
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         "Editar Tarefa",
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Voltar"
+                            contentDescription = "Voltar",
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
             )
         }
     ) { padding ->
@@ -157,7 +166,7 @@ fun EditarTarefas(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                label = "Título",
+                placeholderText = "Título",
                 maxLines = 1,
                 keyboardType = KeyboardType.Text
             )
@@ -170,7 +179,7 @@ fun EditarTarefas(
                     .fillMaxWidth()
                     .height(120.dp)
                     .padding(horizontal = 16.dp),
-                label = "Descrição",
+                placeholderText = "Descrição",
                 maxLines = 5,
                 keyboardType = KeyboardType.Text
             )
@@ -211,35 +220,51 @@ fun EditarTarefas(
             }
             Spacer(Modifier.height(24.dp))
 
-            Button(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                onClick = {
-                    viewModel.atualizarTarefa(
-                        tarefa = tarefa!!.copy(
-                            titulo = titulo,
-                            descricao = descricao,
-                            dataInicial = dataInicial,
-                            dataFinal = dataFinal,
-                            duracao = duracao,
-                            prioridade = prioridadeInt
+                    .padding(vertical = 16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Button(
+                    modifier = Modifier
+                        .height(56.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+
                         ),
-                        onSuccess = {
-                            Toast.makeText(
-                                context,
-                                "Tarefa atualizada com sucesso",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            navController.popBackStack()
-                        },
-                        onError = {
-                            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                        }
+                    onClick = {
+                        viewModel.atualizarTarefa(
+                            tarefa = tarefa!!.copy(
+                                titulo = titulo,
+                                descricao = descricao,
+                                dataInicial = dataInicial,
+                                dataFinal = dataFinal,
+                                duracao = duracao,
+                                prioridade = prioridadeInt
+                            ),
+                            onSuccess = {
+                                Toast.makeText(
+                                    context,
+                                    "Tarefa atualizada com sucesso",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.popBackStack()
+                            },
+                            onError = {
+                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                            }
+                        )
+                    }
+                ) {
+                    Text(
+                        text = "Salvar",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
-            ) {
-                Text("Salvar")
             }
         }
     }

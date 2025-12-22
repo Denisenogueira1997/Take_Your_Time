@@ -3,13 +3,19 @@ package com.example.aplicativotcc.view.componentes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,11 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.ShapeEditText
-import com.example.aplicativotcc.ui.theme.White
+
 
 @Composable
 fun CaixaDeSelecao(
@@ -30,85 +36,97 @@ fun CaixaDeSelecao(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .clickable { expanded = true }
-            .background(White, shape = ShapeEditText.medium)
-            .border(1.dp, Black, shape = ShapeEditText.medium)
+            .clickable {
+                focusManager.clearFocus(force = true)
+                expanded = true
+            }
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeEditText.medium
+            )
+            .border(
+                width = 1.dp,
+                color = if (expanded)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                shape = ShapeEditText.medium
+            )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(horizontal = 12.dp)
         ) {
             Text(
                 text = selectedPriority,
-                color = Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 20.sp,
                 modifier = Modifier.weight(1f)
             )
+
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = "Abrir Menu",
-                tint = Black
+                tint = if (expanded)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.onSurface
             )
         }
 
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             DropdownMenuItem(
+                text = {
+                    Text(
+                        "Urgente",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
                 onClick = {
                     onPrioritySelected("Urgente")
                     expanded = false
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text("Urgente", color = Black)
                 }
-            }
+            )
+
             DropdownMenuItem(
+                text = {
+                    Text(
+                        "Importante",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
                 onClick = {
                     onPrioritySelected("Importante")
                     expanded = false
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text("Importante", color = Black)
                 }
-            }
+            )
+
             DropdownMenuItem(
+                text = {
+                    Text(
+                        "Interessante",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                },
                 onClick = {
                     onPrioritySelected("Interessante")
                     expanded = false
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text("Interessante", color = Black)
                 }
-            }
+            )
         }
     }
 }

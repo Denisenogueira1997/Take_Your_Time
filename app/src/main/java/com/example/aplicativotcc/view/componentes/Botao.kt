@@ -1,14 +1,13 @@
 package com.example.aplicativotcc.view.componentes
 
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
-import androidx.compose.material.Button
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.aplicativotcc.ui.theme.Green
 
 
 @Composable
@@ -20,12 +19,11 @@ fun Botao(
 ) {
 
     Button(
-        onClick,
-        modifier,
+        onClick = onClick,
+        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Green,
-            contentColor = Color.Black
-
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
         Text(text = texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)

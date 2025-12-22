@@ -1,6 +1,5 @@
 package com.example.aplicativotcc.viewmodel
 
-import com.example.aplicativotcc.data.TarefasRepositorio
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -10,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aplicativotcc.data.DateUtil
+import com.example.aplicativotcc.data.TarefasRepositorio
 import com.example.aplicativotcc.view.constantes.Constantes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

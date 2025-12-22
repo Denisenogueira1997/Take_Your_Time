@@ -2,23 +2,31 @@ package com.example.aplicativotcc.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val Seed = Color(0xFF795548)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-val White = Color(0xFFFFFFFF)
-val Black = Color(0xFF131212)
-val Gray = Color(0xFF705F64)
-val Blue = Color(0xFF1033F7)
-val Green= Color(0xFF72DA08)
-val GreenEscuro = Color(0xFF9DE258)
-val Red = Color(0xFFFE6665)
-val BlueEscuro = Color(0XFF0921B2)
-val marrom50 = Color(0xFFF1EFF0)
-val marrom100 = Color(0xFFD3CDCF)
-val marrom900 = Color(0xFF2F282A)
-val PrimaryTextColor = marrom900
+val Primary = Seed
+val OnPrimary = Color.White
 
+val PrimaryContainer = Color(0xFFD7CCC8)
+val OnPrimaryContainer = Color(0xFF3E2723)
+
+val Secondary = Color(0xFF8D6E63)
+val OnSecondary = Color.White
+
+val SecondaryContainer = Color(0xFFEFEBE9)
+val OnSecondaryContainer = Color(0xFF4E342E)
+
+val Background = Color(0xFFF6F4F2)
+val OnBackground = Color(0xFF2E1F1A)
+
+val Surface = Color(0xFFFFFFFF)
+val OnSurface = Color(0xFF2E1F1A)
+
+val Outline = Color(0xFFBCAAA4)
+
+val Error = Color(0xFFB3261E)
+val OnError = Color.White
+
+val Urgente = Color(0xFFD32F2F)
+val Importante = Color(0xFFF9A825)
+val Interessante = Color(0xFF388E3C)

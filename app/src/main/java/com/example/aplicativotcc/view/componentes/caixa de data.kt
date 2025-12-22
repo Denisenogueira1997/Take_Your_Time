@@ -6,14 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.aplicativotcc.ui.theme.Black
 import com.example.aplicativotcc.ui.theme.ShapeEditText
-import com.example.aplicativotcc.ui.theme.White
 
 @Composable
 fun CaixaDeData(
@@ -21,20 +21,28 @@ fun CaixaDeData(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val focusManager = LocalFocusManager.current
+
     Text(
         text = if (value.isEmpty()) "Clique para selecionar a data *" else value,
         fontSize = 18.sp,
-        color = Black,
+        color = MaterialTheme.colorScheme.onSurface,
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
             .border(
                 width = 1.dp,
-                color = Black,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
                 shape = ShapeEditText.medium
             )
-            .background(White, shape = ShapeEditText.medium)
-            .clickable(onClick = onClick)
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = ShapeEditText.medium
+            )
+            .clickable {
+                focusManager.clearFocus(force = true)
+                onClick()
+            }
             .padding(horizontal = 12.dp, vertical = 16.dp)
     )
 }

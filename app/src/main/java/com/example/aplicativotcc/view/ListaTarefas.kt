@@ -1,50 +1,45 @@
 package com.example.aplicativotcc.view
 
-import com.example.aplicativotcc.view.componentes.TarefaItem
-
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Task
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.aplicativotcc.R
-import com.example.aplicativotcc.ui.theme.marrom100
-import com.example.aplicativotcc.ui.theme.marrom50
-import com.example.aplicativotcc.ui.theme.marrom900
+import com.example.aplicativotcc.view.componentes.TarefaItem
 import com.example.aplicativotcc.viewmodel.ListaTarefasViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ListaTarefas(
@@ -58,123 +53,88 @@ fun ListaTarefas(
         viewModel.garantirTempoDiarioAtualizado(tarefas)
     }
 
-
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+
         topBar = {
             TopAppBar(
                 title = {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_lista),
-                            contentDescription = "Ícone lista",
-                            tint = marrom900,
-                            modifier = Modifier
-                                .size(28.dp)
-                                .align(Alignment.CenterStart)
-                        )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+
+                    ) {
+                        Spacer(Modifier.width(8.dp))
                         Text(
-                            text = "Lista de tarefas",
-                            fontSize = 24.sp,
-                            color = marrom900,
-                            modifier = Modifier.align(Alignment.Center)
+                            text = "Take Your Time",
+                            fontSize = 20.sp,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
-                backgroundColor = marrom100,
-                contentColor = marrom900
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
             )
         },
-        backgroundColor = marrom50,
-        bottomBar = {
-            BottomAppBar(
-                backgroundColor = marrom100,
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = Modifier.navigationBarsPadding()
+
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate("CriarTarefas") },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                ) {
-                    TextButton(
-                        onClick = { },
-                        colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = marrom50,
-                            contentColor = marrom900
-                        ),
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-                        modifier = Modifier.align(Alignment.CenterStart)
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_task),
-                            contentDescription = "Lista de tarefas",
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Tarefas")
-                    }
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Criar tarefa"
+                )
+            }
+        },
 
-                    FloatingActionButton(
-                        onClick = { navController.navigate("CriarTarefas") },
-                        backgroundColor = marrom900,
-                        contentColor = marrom100,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .align(Alignment.Center)
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_add),
-                            contentDescription = "Criar tarefa"
-                        )
-                    }
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.surface
+            ) {
+                NavigationBarItem(
+                    selected = true,
+                    onClick = { },
+                    icon = {
+                        Icon(Icons.Default.Task, contentDescription = null)
+                    },
+                    label = { Text("Tarefas") }
+                )
 
-                    TextButton(
-                        onClick = { navController.navigate("AtividadesFinalizadas") },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.Transparent,
-                            contentColor = marrom900
-                        ),
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_estatistica),
-                            contentDescription = "Ir para estatísticas",
-                            modifier = Modifier.size(20.dp),
-                            tint = marrom900
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Estatística", color = marrom900)
-                    }
-                }
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { navController.navigate("AtividadesFinalizadas") },
+                    icon = {
+                        Icon(Icons.Default.BarChart, contentDescription = null)
+                    },
+                    label = { Text("Finalizadas") }
+                )
             }
         }
     ) { paddingValues ->
 
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = 8.dp),
+            contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            LazyColumn(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .weight(1f)
-            ) {
-                itemsIndexed(listaTarefas) { position, tarefa ->
-                    TarefaItem(
-                        tarefa = tarefa,
-                        navController = navController,
-                        onAtualizarTarefa = { tarefaAtualizada ->
-                            viewModel.atualizarTarefa(tarefaAtualizada)
-                        }
-                    )
-                }
-
+            itemsIndexed(tarefas) { _, tarefa ->
+                TarefaItem(
+                    tarefa = tarefa,
+                    navController = navController,
+                    onAtualizarTarefa = { tarefaAtualizada ->
+                        viewModel.atualizarTarefa(tarefaAtualizada)
+                    }
+                )
             }
         }
     }
 }
-
 
 
 

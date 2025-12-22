@@ -6,15 +6,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.aplicativotcc.ui.theme.AplicativoTCCTheme
 import com.example.aplicativotcc.view.AtividadesFinalizadas
 import com.example.aplicativotcc.view.CriarTarefas
-import com.example.aplicativotcc.view.ListaTarefas
 import com.example.aplicativotcc.view.DetalhesTarefa
 import com.example.aplicativotcc.view.EditarTarefas
+import com.example.aplicativotcc.view.ListaTarefas
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.O)
@@ -22,8 +25,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            Navegacao()
+            AplicativoTCCTheme(darkTheme = false) {
+                Navegacao()
+            }
         }
     }
 }
@@ -80,6 +86,5 @@ fun Navegacao() {
                 tarefaId = id
             )
         }
-
     }
 }

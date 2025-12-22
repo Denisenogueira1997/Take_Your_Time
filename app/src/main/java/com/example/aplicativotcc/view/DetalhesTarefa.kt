@@ -1,23 +1,42 @@
 package com.example.aplicativotcc.view
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.aplicativotcc.viewmodel.DetalhesTarefaViewModel
-import com.example.aplicativotcc.ui.theme.BlueEscuro
-import com.example.aplicativotcc.ui.theme.GreenEscuro
-import com.example.aplicativotcc.ui.theme.Red
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,18 +56,19 @@ fun DetalhesTarefa(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
         return
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         text = "Detalhes da Tarefa",
-                        color = Color.Black
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 navigationIcon = {
@@ -56,12 +76,12 @@ fun DetalhesTarefa(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Voltar",
-                            tint = Color.Black
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -75,7 +95,9 @@ fun DetalhesTarefa(
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -83,19 +105,36 @@ fun DetalhesTarefa(
                     Text(
                         text = "Título: ${tarefa!!.titulo}",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text("Descrição:", fontWeight = FontWeight.Bold)
-                    Text(tarefa!!.descricao)
+                    Text(
+                        "Descrição:",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        tarefa!!.descricao,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text("Data Inicial: ${tarefa!!.dataInicial}")
-                    Text("Data Final: ${tarefa!!.dataFinal}")
-                    Text("Duração: ${tarefa!!.duracao}")
+                    Text(
+                        "Data Inicial: ${tarefa!!.dataInicial}",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "Data Final: ${tarefa!!.dataFinal}",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "Duração: ${tarefa!!.duracao}",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -104,7 +143,8 @@ fun DetalhesTarefa(
                             1 -> "Urgente"
                             2 -> "Importante"
                             else -> "Interessante"
-                        }
+                        },
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -120,9 +160,9 @@ fun DetalhesTarefa(
                     onClick = {
                         navController.navigate("editar_tarefa/${tarefa!!.id}")
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = BlueEscuro)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
-                    Text("Editar")
+                    Text("Editar", color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Button(
@@ -130,9 +170,9 @@ fun DetalhesTarefa(
                         viewModel.excluir(tarefa!!.id)
                         navController.popBackStack()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Red)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("Excluir")
+                    Text("Excluir", color = MaterialTheme.colorScheme.onError)
                 }
 
                 Button(
@@ -140,9 +180,9 @@ fun DetalhesTarefa(
                         viewModel.finalizar(tarefa!!.id)
                         navController.popBackStack()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = GreenEscuro)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
                 ) {
-                    Text("Finalizar")
+                    Text("Finalizar", color = MaterialTheme.colorScheme.onSecondary)
                 }
             }
         }

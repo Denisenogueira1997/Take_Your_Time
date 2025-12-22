@@ -1,34 +1,37 @@
 package com.example.aplicativotcc.view.componentes
 
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.aplicativotcc.ui.theme.Gray
 
 @Composable
 fun BotaoCancelar(
     onClick: () -> Unit,
-    modifier: Modifier,
-    texto: String
-
+    texto: String,
+    modifier: Modifier = Modifier
 ) {
-
     Button(
-        onClick,
-        modifier,
+        onClick = onClick,
+        modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Gray,
-            contentColor = Color.Black
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.primary
+        ),
 
-        )
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
     ) {
-        Text(text = texto, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-
+        Text(
+            text = texto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
+        )
     }
-
 }

@@ -1,85 +1,51 @@
 package com.example.aplicativotcc.view.componentes
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.aplicativotcc.ui.theme.Black
-import com.example.aplicativotcc.ui.theme.Blue
-import com.example.aplicativotcc.ui.theme.ShapeEditText
-import com.example.aplicativotcc.ui.theme.White
 
 @Composable
 fun CaixaDeTexto(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier,
-    label: String,
-    maxLines: Int,
-    keyboardType: KeyboardType
+    modifier: Modifier = Modifier,
+    placeholderText: String = "",
+    maxLines: Int = 1,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    readOnly: Boolean = false,
+    onClick: (() -> Unit)? = null
 ) {
-    CaixaDeTexto(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        label = label,
-        maxLines = maxLines,
-        keyboardType = keyboardType,
-        readOnly = false
-    )
-}
-
-
-@Composable
-fun CaixaDeTexto(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier,
-    label: String,
-    maxLines: Int,
-    keyboardType: KeyboardType,
-    readOnly: Boolean
-) {
+    val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier,
-        label = {
-            Text(
-                text = label,
-                fontSize = 20.sp
-            )
-
-
-        },
-        textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
+        modifier = modifier
+            .clickable {
+                focusManager.clearFocus(force = true)
+                onClick?.invoke()
+            },
+        placeholder = { Text(text = placeholderText, fontSize = 16.sp) },
         maxLines = maxLines,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = Black,
-            focusedBorderColor = Blue,
-            focusedLabelColor = Black,
-            backgroundColor = White,
-            cursorColor = Blue
+        readOnly = readOnly,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            cursorColor = MaterialTheme.colorScheme.primary
         ),
-        shape = ShapeEditText.small,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType
-
-        ),
-
-        readOnly = readOnly
-
+        shape = RoundedCornerShape(16.dp)
     )
-
 }
-
-
-
-
-
