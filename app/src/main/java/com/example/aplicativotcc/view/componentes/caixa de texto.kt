@@ -35,16 +35,24 @@ fun CaixaDeTexto(
                 focusManager.clearFocus(force = true)
                 onClick?.invoke()
             },
-        placeholder = { Text(text = placeholderText, fontSize = 16.sp) },
+        placeholder = {
+            Text(
+                text = placeholderText,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+            )
+        },
         maxLines = maxLines,
         readOnly = readOnly,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
             focusedContainerColor = MaterialTheme.colorScheme.surface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            cursorColor = MaterialTheme.colorScheme.primary
+            cursorColor = MaterialTheme.colorScheme.primary,
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         shape = RoundedCornerShape(16.dp)
     )

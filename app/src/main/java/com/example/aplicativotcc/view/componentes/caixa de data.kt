@@ -26,13 +26,13 @@ fun CaixaDeData(
     Text(
         text = if (value.isEmpty()) "Clique para selecionar a data *" else value,
         fontSize = 18.sp,
-        color = MaterialTheme.colorScheme.onSurface,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.outline,
                 shape = ShapeEditText.medium
             )
             .background(

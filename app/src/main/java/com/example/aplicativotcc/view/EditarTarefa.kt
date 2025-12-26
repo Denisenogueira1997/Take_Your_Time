@@ -6,13 +6,16 @@ import android.app.TimePickerDialog
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -44,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.aplicativotcc.data.DateUtil
+import com.example.aplicativotcc.view.componentes.BotaoCancelar
 import com.example.aplicativotcc.view.componentes.CaixaDeData
 import com.example.aplicativotcc.view.componentes.CaixaDeSelecao
 import com.example.aplicativotcc.view.componentes.CaixaDeTexto
@@ -227,43 +231,62 @@ fun EditarTarefas(
                 contentAlignment = Alignment.Center
             ) {
 
-                Button(
+                Row(
                     modifier = Modifier
-                        .height(56.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    BotaoCancelar(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp)
+                            .padding(start = 8.dp),
+                        texto = "Cancelar",
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
 
-                        ),
-                    onClick = {
-                        viewModel.atualizarTarefa(
-                            tarefa = tarefa!!.copy(
-                                titulo = titulo,
-                                descricao = descricao,
-                                dataInicial = dataInicial,
-                                dataFinal = dataFinal,
-                                duracao = duracao,
-                                prioridade = prioridadeInt
+                    Button(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp)
+                            .padding(end = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+
                             ),
-                            onSuccess = {
-                                Toast.makeText(
-                                    context,
-                                    "Tarefa atualizada com sucesso",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                navController.popBackStack()
-                            },
-                            onError = {
-                                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                            }
+                        onClick = {
+                            viewModel.atualizarTarefa(
+                                tarefa = tarefa!!.copy(
+                                    titulo = titulo,
+                                    descricao = descricao,
+                                    dataInicial = dataInicial,
+                                    dataFinal = dataFinal,
+                                    duracao = duracao,
+                                    prioridade = prioridadeInt
+                                ),
+                                onSuccess = {
+                                    Toast.makeText(
+                                        context,
+                                        "Tarefa atualizada com sucesso",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navController.popBackStack()
+                                },
+                                onError = {
+                                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                                }
+                            )
+                        }
+                    ) {
+                        Text(
+                            text = "Salvar",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                ) {
-                    Text(
-                        text = "Salvar",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
                 }
             }
         }

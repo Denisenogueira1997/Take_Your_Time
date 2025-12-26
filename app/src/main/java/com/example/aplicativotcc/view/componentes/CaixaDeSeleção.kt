@@ -55,7 +55,7 @@ fun CaixaDeSelecao(
                 color = if (expanded)
                     MaterialTheme.colorScheme.primary
                 else
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                    MaterialTheme.colorScheme.outline,
                 shape = ShapeEditText.medium
             )
     ) {

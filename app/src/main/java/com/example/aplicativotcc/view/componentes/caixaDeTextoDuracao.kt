@@ -32,7 +32,7 @@ fun CaixaDeTextoDuracao(
             .height(56.dp)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.outline,
                 shape = ShapeEditText.medium
             )
             .background(

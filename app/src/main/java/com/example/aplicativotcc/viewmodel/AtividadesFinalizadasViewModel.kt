@@ -8,11 +8,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AtividadesFinalizadasViewModel @Inject constructor(
-    repositorio: TarefasRepositorio
+    private val repositorio: TarefasRepositorio
 ) : ViewModel() {
 
     val atividadesFinalizadas: StateFlow<List<TarefaEntity>> =
@@ -22,5 +23,12 @@ class AtividadesFinalizadasViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
             )
+
+    fun excluirAtividade(tarefa: TarefaEntity) {
+        viewModelScope.launch {
+            repositorio.excluir(tarefa)
+        }
+    }
 }
+
 

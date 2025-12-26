@@ -155,16 +155,6 @@ fun DetalhesTarefa(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-
-                Button(
-                    onClick = {
-                        navController.navigate("editar_tarefa/${tarefa!!.id}")
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-                ) {
-                    Text("Editar", color = MaterialTheme.colorScheme.onPrimary)
-                }
-
                 Button(
                     onClick = {
                         viewModel.excluir(tarefa!!.id)
@@ -173,6 +163,14 @@ fun DetalhesTarefa(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Excluir", color = MaterialTheme.colorScheme.onError)
+                }
+                Button(
+                    onClick = {
+                        navController.navigate("editar_tarefa/${tarefa!!.id}")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Editar", color = MaterialTheme.colorScheme.onPrimary)
                 }
 
                 Button(
