@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.aplicativotcc.ui.theme.AplicativoTCCTheme
+import com.example.aplicativotcc.ui.theme.system.SetupSystemBars
 import com.example.aplicativotcc.view.AtividadesFinalizadas
 import com.example.aplicativotcc.view.CriarTarefas
 import com.example.aplicativotcc.view.DetalhesTarefa
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             AplicativoTCCTheme(darkTheme = false) {
+                SetupSystemBars()
                 Navegacao()
             }
         }

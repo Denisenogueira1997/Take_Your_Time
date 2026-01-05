@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +52,9 @@ fun TarefaItem(
 
     val tituloTarefa = tarefa.titulo.ifEmpty { "Tarefa sem título" }
     val tempoDiarioExibido = tarefa.tempoDiarioFixo.ifBlank { "00:00" }
+    val (iconePrioridade, corPrioridade) =
+        iconeECorPorPrioridade(tarefa.prioridade)
+
 
     var isCheckedState by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -108,16 +112,30 @@ fun TarefaItem(
             ) {
 
 
-                Text(
-                    text = tituloTarefa,
+                Row(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(start = 12.dp, end = 90.dp),
-                    fontSize = 16.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = iconePrioridade,
+                        contentDescription = "Prioridade da tarefa",
+                        tint = corPrioridade,
+                        modifier = Modifier.size(18.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = tituloTarefa,
+                        fontSize = 16.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
 
                 Box(
                     modifier = Modifier

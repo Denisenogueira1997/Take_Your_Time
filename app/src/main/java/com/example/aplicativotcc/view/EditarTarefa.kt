@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -68,7 +69,7 @@ fun EditarTarefas(
 ) {
 
     val context = LocalContext.current
-    val dateUtil = DateUtil()
+    val dateUtil = remember { DateUtil() }
 
     val tarefa by viewModel
         .getTarefa(tarefaId)
@@ -120,14 +121,27 @@ fun EditarTarefas(
         calendar.get(Calendar.MONTH),
         calendar.get(Calendar.DAY_OF_MONTH)
     )
-
-    val timePicker = TimePickerDialog(
-        context,
-        { _, h, m ->
-            duracao = dateUtil.createFormattedTime(h, m)
-        },
-        0, 0, true
-    )
+    val localTime = remember(duracao) {
+        try {
+            java.time.LocalTime.parse(
+                duracao.ifBlank { "00:00" },
+                dateUtil.timeFormatter
+            )
+        } catch (e: Exception) {
+            java.time.LocalTime.of(0, 0)
+        }
+    }
+    val timePicker = remember(duracao) {
+        TimePickerDialog(
+            context,
+            { _, h, m ->
+                duracao = dateUtil.createFormattedTime(h, m)
+            },
+            localTime.hour,
+            localTime.minute,
+            true
+        )
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -160,6 +174,7 @@ fun EditarTarefas(
             modifier = Modifier
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
+                .imePadding()
         ) {
 
             Spacer(Modifier.height(16.dp))
