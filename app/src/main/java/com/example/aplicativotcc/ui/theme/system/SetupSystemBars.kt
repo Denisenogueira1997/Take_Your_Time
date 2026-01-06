@@ -16,6 +16,7 @@ fun SetupSystemBars() {
     SideEffect {
         val window = (view.context as Activity).window
         window.statusBarColor = color.toArgb()
+        window.navigationBarColor = color.toArgb()
 
         WindowInsetsControllerCompat(
             window,
