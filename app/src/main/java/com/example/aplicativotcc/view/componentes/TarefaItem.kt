@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,8 +53,7 @@ fun TarefaItem(
 
     val tituloTarefa = tarefa.titulo.ifEmpty { "Tarefa sem título" }
     val tempoDiarioExibido = tarefa.tempoDiarioFixo.ifBlank { "00:00" }
-    val (iconePrioridade, corPrioridade) =
-        iconeECorPorPrioridade(tarefa.prioridade)
+    val iconePrioridade = iconeECorPorPrioridade(tarefa.prioridade)
 
 
     var isCheckedState by remember { mutableStateOf(false) }
@@ -119,10 +119,9 @@ fun TarefaItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = iconePrioridade,
-                        contentDescription = "Prioridade da tarefa",
-                        tint = corPrioridade,
-                        modifier = Modifier.size(18.dp)
+                        painter = iconePrioridade,
+                        contentDescription = null,
+                        tint = Color.Unspecified
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))

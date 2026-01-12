@@ -5,10 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -23,9 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.aplicativotcc.R
 import com.example.aplicativotcc.ui.theme.ShapeEditText
 
 
@@ -65,12 +70,25 @@ fun CaixaDeSelecao(
                 .fillMaxSize()
                 .padding(horizontal = 12.dp)
         ) {
-            Text(
-                text = selectedPriority,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 20.sp,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.weight(1f)
-            )
+            ) {
+                Icon(
+                    painter = iconePorPrioridade(selectedPriority),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                Text(
+                    text = selectedPriority,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = 20.sp,
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
@@ -91,10 +109,15 @@ fun CaixaDeSelecao(
         ) {
             DropdownMenuItem(
                 text = {
-                    Text(
-                        "Urgente",
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = iconePorPrioridade("Urgente"),
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Urgente")
+                    }
                 },
                 onClick = {
                     onPrioritySelected("Urgente")
@@ -104,10 +127,15 @@ fun CaixaDeSelecao(
 
             DropdownMenuItem(
                 text = {
-                    Text(
-                        "Importante",
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = iconePorPrioridade("Importante"),
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Importante")
+                    }
                 },
                 onClick = {
                     onPrioritySelected("Importante")
@@ -117,10 +145,15 @@ fun CaixaDeSelecao(
 
             DropdownMenuItem(
                 text = {
-                    Text(
-                        "Interessante",
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            painter = iconePorPrioridade("Interessante"),
+                            contentDescription = null,
+                            tint = Color.Unspecified
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text("Interessante")
+                    }
                 },
                 onClick = {
                     onPrioritySelected("Interessante")
@@ -129,4 +162,12 @@ fun CaixaDeSelecao(
             )
         }
     }
+}
+
+@Composable
+fun iconePorPrioridade(prioridade: String) = when (prioridade) {
+    "Urgente" -> painterResource(R.drawable.urgente)
+    "Importante" -> painterResource(R.drawable.importante)
+    "Interessante" -> painterResource(R.drawable.interessante)
+    else -> painterResource(R.drawable.interessante)
 }
